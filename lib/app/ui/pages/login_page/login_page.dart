@@ -1,0 +1,16 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../controllers/login_controller.dart';
+import '../../layouts/main/widgets/main_layout_view.dart';
+
+class LoginPage extends GetView<LoginController> {
+  @override
+  Widget build(BuildContext context) {
+    return MainLayoutView(
+            child: Center(
+        child: Text('Login'),
+      ),
+    );
+  }
+}
