@@ -39,23 +39,19 @@ class AuthenticationController extends GetxController {
       timeout: const Duration(seconds: 60),
       phoneNumber: phone,
       verificationCompleted: (AuthCredential credential) async {
-        Fluttertoast.showToast(msg: 'Verification Complete');
         await FirebaseAuth.instance.signInWithCredential(credential);
         onCompleteVerification();
       },
       verificationFailed: (FirebaseAuthException exception) {
-        Fluttertoast.showToast(msg: 'Verification Failed');
         if (exception.code == 'invalid-phone-number') {
           throw Exception('The provided phone number is not valid.');
         }
         throw exception;
       },
       codeSent: (verificationId, forceResendingToken) {
-        Fluttertoast.showToast(msg: 'Code Sent');
         onCodeSent(verificationId, forceResendingToken);
       },
       codeAutoRetrievalTimeout: (verificationId) {
-        Fluttertoast.showToast(msg: 'Code Auto Retrieval Timeout');
       },
     );
     // final credentials = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);

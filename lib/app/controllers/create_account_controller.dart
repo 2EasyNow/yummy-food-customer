@@ -65,7 +65,7 @@ class CreateAccountController extends GetxController {
       createAccountState.value = CreateAccountState.userCreation;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-verification-code') {
-        createAccountState.value = CreateAccountState.codeSent;
+        createAccountState.value = CreateAccountState.codeVerificationFailed;
       } else {
         createAccountState.value = CreateAccountState.error;
       }
@@ -73,7 +73,6 @@ class CreateAccountController extends GetxController {
   }
 
   void saveUserData() async {
-    Fluttertoast.showToast(msg: 'Saving User Data');
     final customerController = Get.find<CustomerController>();
     final customer = Customer(
       name: nameController.text,

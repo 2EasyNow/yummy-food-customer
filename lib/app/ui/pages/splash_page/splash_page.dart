@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_food_delivery/app/config/app_information.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/text_theme.dart';
 import 'package:sizer/sizer.dart';
@@ -22,7 +23,7 @@ class SplashPage extends GetView<SplashController> {
             color: AppColors(context).primary,
           ),
           Text(
-            "Food Swipe",
+            AppInformation.title,
             style: AppTextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 32.sp,

@@ -56,7 +56,7 @@ class CustomTheme {
           backgroundColor: colors.primary,
           primary: colors.onPrimary,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          minimumSize: const Size(200, 60),
+          minimumSize: const Size(99999, 60),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(

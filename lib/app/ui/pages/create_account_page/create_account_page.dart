@@ -161,7 +161,7 @@ class _CreateAccountBottomSheet extends GetView<CreateAccountController> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => Future.value(true),
+      onWillPop: () => Future.value(false),
       child: Material(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -177,115 +177,108 @@ class _CreateAccountBottomSheet extends GetView<CreateAccountController> {
             controller.saveUserData();
             return const _LoadingSheetUI(title: 'Saving Profile');
           } else if (controller.createAccountState.value == CreateAccountState.codeVerificationFailed) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Invalid OTP Code',
-                  style: AppTextStyle(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const VerticalSpacer(),
-                const Text('You have entered an invalid OTP code. Please try again.'),
-                const VerticalSpacer(),
-                TextButton(
-                  onPressed: () {
-                    controller.createAccountState.value = CreateAccountState.codeSent;
-                  },
-                  style: TextButton.styleFrom(
-                    minimumSize: Size(Get.width, 60),
-                    backgroundColor: AppColors(context).errorDark,
-                  ),
-                  child: Text(
-                    'Try Again',
-                    style: AppTextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                )
-              ],
-            ).paddingAll(20);
+            return const _InvalidOTPCodeSheetUI();
           } else if (controller.createAccountState.value == CreateAccountState.error) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Error',
-                  style: AppTextStyle(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const VerticalSpacer(),
-                const Text('Something went wrong. Please try again.'),
-                const VerticalSpacer(),
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: Get.back,
-                        style: OutlinedButton.styleFrom(
-                          minimumSize: Size(Get.width, 60),
-                          side: BorderSide(
-                            color: AppColors(context).errorDark,
-                          ),
-                        ),
-                        child: Text(
-                          'Close',
-                          style: AppTextStyle(
-                            color: AppColors(context).errorDark,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const HorizontalSpacer(),
-                    Expanded(
-                      child: TextButton(
-                        onPressed: controller.onCreateAccountWithPhoneNumber,
-                        style: TextButton.styleFrom(
-                          minimumSize: Size(Get.width, 60),
-                        ),
-                        child: const Text('Try Again'),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ).paddingAll(20);
+            return const _ErrorSheetUI();
           } else if (controller.createAccountState.value == CreateAccountState.userCreated) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Account Created',
-                  style: AppTextStyle(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const VerticalSpacer(),
-                Icon(
-                  Icons.check_circle,
-                  color: AppColors(context).success,
-                  size: 90,
-                ),
-                const VerticalSpacer(),
-                TimerButton(
-                  onTap: () => Get.offAllNamed(AppRoutes.HOME),
-                  time: 3,
-                  backgroundColor: AppColors(context).primary,
-                  textColor: AppColors(context).onPrimary,
-                  title: 'Continue',
-                ),
-              ],
-            ).paddingAll(20);
+            return const _AccountCreatedSheetUI();
           }
           return Container();
         }),
       ),
     );
+  }
+}
+
+class _ErrorSheetUI extends GetView<CreateAccountController> {
+  const _ErrorSheetUI({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          'Error',
+          style: AppTextStyle(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const VerticalSpacer(),
+        const Text('Something went wrong. Please try again.'),
+        const VerticalSpacer(),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                onPressed: Get.back,
+                style: OutlinedButton.styleFrom(
+                  minimumSize: Size(Get.width, 60),
+                  side: BorderSide(
+                    color: AppColors(context).errorDark,
+                  ),
+                ),
+                child: Text(
+                  'Close',
+                  style: AppTextStyle(
+                    color: AppColors(context).errorDark,
+                  ),
+                ),
+              ),
+            ),
+            const HorizontalSpacer(),
+            Expanded(
+              child: TextButton(
+                onPressed: controller.onCreateAccountWithPhoneNumber,
+                style: TextButton.styleFrom(
+                  minimumSize: Size(Get.width, 60),
+                ),
+                child: const Text('Try Again'),
+              ),
+            ),
+          ],
+        )
+      ],
+    ).paddingAll(20);
+  }
+}
+
+class _InvalidOTPCodeSheetUI extends GetView<CreateAccountController> {
+  const _InvalidOTPCodeSheetUI({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          'Invalid OTP Code',
+          style: AppTextStyle(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const VerticalSpacer(),
+        const Text('You have entered an invalid OTP code. Please try again.'),
+        const VerticalSpacer(),
+        TextButton(
+          onPressed: () {
+            controller.createAccountState.value = CreateAccountState.codeSent;
+          },
+          style: TextButton.styleFrom(
+            minimumSize: Size(Get.width, 60),
+            backgroundColor: AppColors(context).errorDark,
+          ),
+          child: Text(
+            'Try Again',
+            style: AppTextStyle(
+              color: Colors.white,
+            ),
+          ),
+        )
+      ],
+    ).paddingAll(20);
   }
 }
 
@@ -338,6 +331,40 @@ class _OTPCodeUI extends GetView<CreateAccountController> {
         ],
       ).paddingAll(20),
     );
+  }
+}
+
+class _AccountCreatedSheetUI extends StatelessWidget {
+  const _AccountCreatedSheetUI({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          'Account Created',
+          style: AppTextStyle(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const VerticalSpacer(),
+        Icon(
+          Icons.check_circle,
+          color: AppColors(context).success,
+          size: 90,
+        ),
+        const VerticalSpacer(),
+        TimerButton(
+          onTap: () => Get.offAllNamed(AppRoutes.HOME),
+          time: 3,
+          backgroundColor: AppColors(context).primary,
+          textColor: AppColors(context).onPrimary,
+          title: 'Continue',
+        ),
+      ],
+    ).paddingAll(20);
   }
 }
 

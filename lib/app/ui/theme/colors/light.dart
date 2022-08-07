@@ -80,7 +80,7 @@ class LightThemeColors implements ThemeColors {
   @override
   final errorDark = const Color(0xFFDD3333);
   @override
-  final onError = const Color(0xFF000000);
+  final onError = const Color(0xFFFFFFFF);
 
   @override
   final background = const Color(0xFFFFFFFF);
