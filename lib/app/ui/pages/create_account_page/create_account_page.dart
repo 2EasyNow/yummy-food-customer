@@ -21,6 +21,7 @@ class CreateAccountPage extends GetView<CreateAccountController> {
 
   @override
   Widget build(BuildContext context) {
+    final double spaceBetweenFields = 1.5.h;
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
@@ -68,7 +69,7 @@ class CreateAccountPage extends GetView<CreateAccountController> {
                   ),
                 ),
                 /////////         Phone Number Field         /////////
-                const VerticalSpacer(),
+                VerticalSpacer(space: spaceBetweenFields),
                 Text('Phone Number', style: AppTextStyle(color: AppColors(context).grey400)),
                 VerticalSpacer(space: 0.5.h),
                 TextFormField(
@@ -93,7 +94,8 @@ class CreateAccountPage extends GetView<CreateAccountController> {
                   ),
                 ),
                 /////////         Email Field         /////////
-                const VerticalSpacer(),
+                VerticalSpacer(space: spaceBetweenFields),
+
                 Text('Email', style: AppTextStyle(color: AppColors(context).grey400)),
                 VerticalSpacer(space: 0.5.h),
                 TextFormField(
@@ -109,7 +111,8 @@ class CreateAccountPage extends GetView<CreateAccountController> {
                   ),
                 ),
                 /////////         Email Field         /////////
-                const VerticalSpacer(),
+                VerticalSpacer(space: spaceBetweenFields),
+
                 Text('Address', style: AppTextStyle(color: AppColors(context).grey400)),
                 VerticalSpacer(space: 0.5.h),
                 TextFormField(
@@ -126,8 +129,28 @@ class CreateAccountPage extends GetView<CreateAccountController> {
                     prefixIcon: Assets.icons.address.svg(color: AppColors(context).grey600).paddingSymmetric(vertical: 12),
                   ),
                 ),
+                VerticalSpacer(space: 0.5.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Already have an account?",
+                      style: AppTextStyle(color: AppColors(context).grey600),
+                    ),
+                    GestureDetector(
+                      onTap: () => Get.offNamed(AppRoutes.LOGIN),
+                      child: Text(
+                        " Log In",
+                        style: AppTextStyle(
+                          color: AppColors(context).primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                VerticalSpacer(space: 1.h),
                 /////////         Submit Button         /////////
-                const VerticalSpacer(),
                 TextButton(
                   onPressed: () {
                     // showLoadingBottomSheet(context, title: 'Creating Account');

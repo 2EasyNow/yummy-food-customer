@@ -77,7 +77,27 @@ class LoginPage extends GetView<LoginController> {
               ),
               /////////         Email Field         /////////
               /////////         Submit Button         /////////
-              const VerticalSpacer(),
+              VerticalSpacer(space: 0.5.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "Don't have an account?",
+                    style: AppTextStyle(color: AppColors(context).grey600),
+                  ),
+                  GestureDetector(
+                    onTap: () => Get.offNamed(AppRoutes.CREATE_ACCOUNT),
+                    child: Text(
+                      " Sign Up",
+                      style: AppTextStyle(
+                        color: AppColors(context).primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              VerticalSpacer(space: 1.h),
               TextButton(
                 onPressed: () {
                   // showLoadingBottomSheet(context, title: 'Creating Account');
