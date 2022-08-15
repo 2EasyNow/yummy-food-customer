@@ -20,7 +20,10 @@ class LoginController extends GetxController {
   final smsCodeController = TextEditingController();
   final loginState = LoginAccountState.phoneVerification.obs;
 
-  String? get phoneNumber => '+923${phoneController.text}';
+  String? get phoneNumber {
+    final number = phoneController.text.replaceAll('-', '-');
+    return '+923$number';
+  }
 
   String? _verificationId;
   int? _forceResendCode;

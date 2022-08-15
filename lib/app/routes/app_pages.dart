@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/routes/get_route.dart';
-
 import '../bindings/create_account_binding.dart';
 import '../bindings/getting_started_binding.dart';
 import '../bindings/home_binding.dart';
@@ -33,13 +31,13 @@ class AppPages {
     unknownRoutePage,
     GetPage(
       name: AppRoutes.HOME,
-      page: () => HomePage(),
+      page: () => const HomePage(),
       binding: HomeBinding(),
       transition: _defaultTransition,
     ),
     GetPage(
       name: AppRoutes.SPLASH,
-      page: () => SplashPage(),
+      page: () => const SplashPage(),
       binding: SplashBinding(),
       transition: _defaultTransition,
     ),
@@ -57,33 +55,33 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.HOME,
-      page: () => HomePage(),
+      page: () => const HomePage(),
       binding: HomeBinding(),
       transition: _defaultTransition,
     ),
     GetPage(
       name: AppRoutes.GETTING_STARTED,
-      page: () => GettingStartedPage(),
+      page: () => const GettingStartedPage(),
       binding: GettingStartedBinding(),
       transition: _defaultTransition,
     ),
     GetPage(
       name: AppRoutes.ON_BOARDING,
-      page: () => OnBoardingPage(),
+      page: () => const OnBoardingPage(),
       binding: OnBoardingBinding(),
       transition: _defaultTransition,
     ),
     GetPage(
       name: AppRoutes.LOGIN,
-      page: () => LoginPage(),
+      page: () => const LoginPage(),
       binding: LoginBinding(),
-      transition: _defaultTransition,
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: AppRoutes.CREATE_ACCOUNT,
-      page: () => CreateAccountPage(),
+      page: () => const CreateAccountPage(),
       binding: CreateAccountBinding(),
-      transition: _defaultTransition,
-    ), 
-];
+      transition: Transition.rightToLeft,
+    ),
+  ];
 }

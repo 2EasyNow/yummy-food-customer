@@ -1,5 +1,7 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intelligent_food_delivery/app/utils/input_formatters.dart';
 import '../../../config/app_information.dart';
 import '../../global_widgets/global_widgets.dart';
 import '../../global_widgets/timer_button.dart';
@@ -75,10 +77,18 @@ class CreateAccountPage extends GetView<CreateAccountController> {
                 TextFormField(
                   controller: controller.phoneController,
                   autofillHints: const [AutofillHints.telephoneNumber],
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(10),
+                    FilteringTextInputFormatter.digitsOnly,
+                    PakistanPhoneNumberFormatter(separator: '-', smaple: 'XX-XXXXXXX'),
+                  ],
                   keyboardType: TextInputType.phone,
                   validator: (value) {
-                    if (value!.length != 9) {
-                      return 'Invalid Phone Number';
+                    // Valid Phone format XX-XXXXXXX
+                    if (value!.isEmpty) {
+                      return 'Please enter your phone number';
+                    } else if (!RegExp(r'^[0-9]{2}-[0-9]{7}$').hasMatch(value)) {
+                      return 'Please enter a valid phone number';
                     }
                     return null;
                   },
