@@ -25,6 +25,7 @@ class CustomerController extends GetxController {
     super.onInit();
     listenToCustomerDoc();
   }
+  Future<bool> get hasCustomerDocCreated async => (await currentCustomerReference.get()).exists;
 
   Future createCustomerDoc(Customer customer) async {
     await currentCustomerReference.set(customer);
@@ -58,5 +59,4 @@ class CustomerController extends GetxController {
     customerDocumentSnapshot = null;
   }
 
-  Future<bool> get hasCustomerDocCreated async => (await currentCustomerReference.get()).exists;
 }

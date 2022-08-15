@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:intelligent_food_delivery/app/controllers/core/authentication.controller.dart';
+import 'package:intelligent_food_delivery/app/controllers/core/customer.controller.dart';
+import 'package:intelligent_food_delivery/app/utils/utils.dart';
 
 enum LoginAccountState {
   phoneVerification,
@@ -23,8 +25,13 @@ class LoginController extends GetxController {
   String? _verificationId;
   int? _forceResendCode;
 
-  onLogin() {
+  onLogin() async {
     final authController = Get.find<AuthenticationController>();
+    final customerController = Get.find<CustomerController>();
+    if (!(await customerController.hasCustomerDocCreated)) {
+      if (Get.isBottomSheetOpen!) Get.back();
+      showAppSnackBar('User Not found', "Please create an account first");
+    }
     authController.signInWithPhoneNumber(
       phoneNumber!,
       onCompleteVerification: () {
