@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1079170693126:android:c3f6923db5dc67ade86b87",
+        "mobilesdk_app_id": "1:1079170693126:android:345cf97fe25fe076e86b87",
         "android_client_info": {
-          "package_name": "com.example.food_swipe"
+          "package_name": "tech.easynow.yummy_swipe.customer"
         }
       },
       "oauth_client": [
@@ -29,6 +29,13 @@
             {
               "client_id": "1079170693126-gp5d44ti2a3clbbq2qbppbucdpinrn82.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1079170693126-ltsm762i5i15v5l7i5h1i8lksu6icskm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.foodSwipe"
+              }
             }
           ]
         }

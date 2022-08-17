@@ -17,13 +17,19 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -46,31 +52,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBIry0rbNvfJaxU4b2g5nSHvOPQQ3V3Wk8',
-    appId: '1:1079170693126:web:a28ddce50324cef9e86b87',
-    messagingSenderId: '1079170693126',
-    projectId: 'food-delivery-d071d',
-    authDomain: 'food-delivery-d071d.firebaseapp.com',
-    storageBucket: 'food-delivery-d071d.appspot.com',
-    measurementId: 'G-0QRZLG84BF',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCbWKk9loepkI0FMr3b5DKuBd7eijHTgAU',
-    appId: '1:1079170693126:android:c3f6923db5dc67ade86b87',
+    appId: '1:1079170693126:android:345cf97fe25fe076e86b87',
     messagingSenderId: '1079170693126',
     projectId: 'food-delivery-d071d',
     storageBucket: 'food-delivery-d071d.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCLlTmEkUCgJLubn_BXEOgd8-N1vhdycUo',
-    appId: '1:1079170693126:ios:f1e57b54f8b14e92e86b87',
-    messagingSenderId: '1079170693126',
-    projectId: 'food-delivery-d071d',
-    storageBucket: 'food-delivery-d071d.appspot.com',
-    iosClientId: '1079170693126-ltsm762i5i15v5l7i5h1i8lksu6icskm.apps.googleusercontent.com',
-    iosBundleId: 'com.example.foodSwipe',
   );
 }
