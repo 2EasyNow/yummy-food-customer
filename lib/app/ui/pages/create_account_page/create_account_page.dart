@@ -3,6 +3,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intelligent_food_delivery/app/utils/input_formatters.dart';
 import '../../../config/app_information.dart';
+import '../../../controllers/core/customer.controller.dart';
+import '../../../utils/snackbars.dart';
 import '../../global_widgets/global_widgets.dart';
 import '../../global_widgets/timer_button.dart';
 import '../../theme/app_colors.dart';
@@ -61,6 +63,7 @@ class CreateAccountPage extends GetView<CreateAccountController> {
                 TextFormField(
                   controller: controller.nameController,
                   autofillHints: const [AutofillHints.name],
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]'))],
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value!.isEmpty) return "Name can't be empty";
@@ -75,6 +78,7 @@ class CreateAccountPage extends GetView<CreateAccountController> {
                 Text('Phone Number', style: AppTextStyle(color: AppColors(context).grey400)),
                 VerticalSpacer(space: 0.5.h),
                 TextFormField(
+                  focusNode: controller.phoneNumberScopeNode,
                   controller: controller.phoneController,
                   autofillHints: const [AutofillHints.telephoneNumber],
                   inputFormatters: [
@@ -162,9 +166,17 @@ class CreateAccountPage extends GetView<CreateAccountController> {
                 VerticalSpacer(space: 1.h),
                 /////////         Submit Button         /////////
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // showLoadingBottomSheet(context, title: 'Creating Account');
                     if (!controller.formKey.currentState!.validate()) return;
+                    final customerController = Get.find<CustomerController>();
+
+                    if (await customerController.isCustomerExist(controller.phoneNumber!)) {
+                      if (Get.isBottomSheetOpen!) Get.back();
+                      showAppSnackBar('User Already Exists', "Please login");
+                      controller.phoneNumberScopeNode.requestFocus();
+                      return;
+                    }
                     Get.bottomSheet(
                       AnimatedContainer(
                         duration: const Duration(milliseconds: 200),

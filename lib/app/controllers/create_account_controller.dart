@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_food_delivery/app/controllers/core/customer.controller.dart';
+import '../utils/snackbars.dart';
 import 'core/authentication.controller.dart';
 import 'core/customer.controller.dart';
 import '../firestore/customer/customer.dart';
@@ -23,10 +24,14 @@ class CreateAccountController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
+  final phoneNumberScopeNode = FocusScopeNode();
   final emailController = TextEditingController();
   final addressController = TextEditingController();
 
-  String? get phoneNumber => '+923${phoneController.text}';
+  String? get phoneNumber {
+    final number = phoneController.text.replaceAll('-', '');
+    return '+923$number';
+  }
 
   String? _verificationId;
   int? _forceResendCode;
@@ -37,6 +42,8 @@ class CreateAccountController extends GetxController {
 
   onCreateAccountWithPhoneNumber() async {
     if (!formKey.currentState!.validate()) return;
+    // check if the user is already registered
+
     createAccountState.value = CreateAccountState.verification;
     final authController = Get.find<AuthenticationController>();
     // authController.createUserWithPhone(email, password, name)
@@ -44,7 +51,6 @@ class CreateAccountController extends GetxController {
     authController.signInWithPhoneNumber(
       phoneNumber!,
       onCompleteVerification: () {
-        // TODO: Insert the Data in the Firestore
         createAccountState.value = CreateAccountState.userCreation;
         // Next Step is to Save User Data
       },

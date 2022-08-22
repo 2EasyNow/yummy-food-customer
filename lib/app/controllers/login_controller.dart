@@ -21,7 +21,7 @@ class LoginController extends GetxController {
   final loginState = LoginAccountState.phoneVerification.obs;
 
   String? get phoneNumber {
-    final number = phoneController.text.replaceAll('-', '-');
+    final number = phoneController.text.replaceAll('-', '');
     return '+923$number';
   }
 
@@ -31,7 +31,7 @@ class LoginController extends GetxController {
   onLogin() async {
     final authController = Get.find<AuthenticationController>();
     final customerController = Get.find<CustomerController>();
-    if (!(await customerController.hasCustomerDocCreated)) {
+    if (!(await customerController.isCustomerExist(phoneNumber!))) {
       if (Get.isBottomSheetOpen!) Get.back();
       showAppSnackBar('User Not found', "Please create an account first");
     }
