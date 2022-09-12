@@ -1,13 +1,22 @@
-// ignore_for_file: constant_identifier_names
+part of 'app_pages.dart';
+// DO NOT EDIT. This is code generated via package:get_cli/get_cli.dart
 
-class AppRoutes {
-  static const HOME = '/';
-  static const UNKNOWN = '/404';
+abstract class Routes {
+  Routes._();
+
+  static const HOME = _Paths.HOME;
+  static const SIGN_UP = _Paths.SIGN_UP;
+  static const SPLASH = _Paths.SPLASH;
+  static const GETTING_STARTED = _Paths.GETTING_STARTED;
+  static const LOGIN = _Paths.LOGIN;
+  static const ON_BOARDING = _Paths.ON_BOARDING;
+}
+
+abstract class _Paths {
+  static const HOME = '/home';
+  static const SIGN_UP = '/sign-up';
   static const SPLASH = '/splash';
-  static const PROFILE = '/profile';
-  static const SETTING = '/setting';
   static const GETTING_STARTED = '/getting-started';
-  static const ON_BOARDING = '/on-boarding';
   static const LOGIN = '/login';
-  static const CREATE_ACCOUNT = '/create-account';
+  static const ON_BOARDING = '/on-boarding';
 }
