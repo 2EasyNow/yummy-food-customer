@@ -6,16 +6,10 @@ import '../../../common/constants/constants.dart';
 import '../../../common/theme/app_colors.dart';
 import '../../../common/theme/text_theme.dart';
 import '../../../common/widgets/input_formatters.dart';
-import '../../../common/widgets/snackbars.dart';
 import '../../../common/widgets/spacers.dart';
 import '../../../common/widgets/timer_button.dart';
-import '../../../core/controllers/customer.controller.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/sign_up_controller.dart';
-
-
-
-
 
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -24,9 +18,6 @@ import '../../../../assets/assets.gen.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 
 class SignUpView extends GetView<SignUpController> {
   const SignUpView({Key? key}) : super(key: key);
@@ -62,7 +53,10 @@ class SignUpView extends GetView<SignUpController> {
                 Center(
                   child: Text(
                     AppInformation.title,
-                    style: AppTextStyle(fontWeight: FontWeight.w800, fontSize: 24.sp,),
+                    style: AppTextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 24.sp,
+                    ),
                   ),
                 ),
                 /////////         Name Field         /////////
@@ -115,42 +109,6 @@ class SignUpView extends GetView<SignUpController> {
                     ),
                   ),
                 ),
-                /////////         Email Field         /////////
-                VerticalSpacer(space: spaceBetweenFields),
-
-                Text('Email', style: AppTextStyle(color: AppColors(context).grey400)),
-                VerticalSpacer(space: 0.5.h),
-                TextFormField(
-                  controller: controller.emailController,
-                  autofillHints: const [AutofillHints.email],
-                  validator: (value) {
-                    if (!GetUtils.isEmail(value!)) return 'Invalid Email';
-                    return null;
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(
-                    prefixIcon: Assets.icons.message.svg(color: AppColors(context).grey600).paddingSymmetric(vertical: 12),
-                  ),
-                ),
-                /////////         Email Field         /////////
-                VerticalSpacer(space: spaceBetweenFields),
-
-                Text('Address', style: AppTextStyle(color: AppColors(context).grey400)),
-                VerticalSpacer(space: 0.5.h),
-                TextFormField(
-                  controller: controller.addressController,
-                  autofillHints: const [AutofillHints.postalAddress],
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) {
-                    if (value!.isEmpty) return 'Address is required';
-                    return null;
-                  },
-                  minLines: 1,
-                  maxLines: 3,
-                  decoration: InputDecoration(
-                    prefixIcon: Assets.icons.address.svg(color: AppColors(context).grey600).paddingSymmetric(vertical: 12),
-                  ),
-                ),
                 VerticalSpacer(space: 0.5.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -174,25 +132,9 @@ class SignUpView extends GetView<SignUpController> {
                 VerticalSpacer(space: 1.h),
                 /////////         Submit Button         /////////
                 TextButton(
-                  onPressed: () async {
-                    // showLoadingBottomSheet(context, title: 'Creating Account');
-                    if (!controller.formKey.currentState!.validate()) return;
-                    final customerController = Get.find<CustomerController>();
-
-                    if (await customerController.isCustomerExist(controller.phoneNumber!)) {
-                      if (Get.isBottomSheetOpen!) Get.back();
-                      showAppSnackBar('User Already Exists', "Please login");
-                      controller.phoneNumberScopeNode.requestFocus();
-                      return;
-                    }
-                    Get.bottomSheet(
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        child: const _CreateAccountBottomSheet(),
-                      ),
-                    );
-                    controller.onCreateAccountWithPhoneNumber();
-                  },
+                  onPressed: () => controller.onCreateAccount(
+                    processStartDesign: const _CreateAccountBottomSheet(),
+                  ),
                   style: TextButton.styleFrom(
                     minimumSize: Size(Get.width, 60),
                   ),
@@ -236,7 +178,7 @@ class _CreateAccountBottomSheet extends GetView<SignUpController> {
           } else if (controller.createAccountState.value == CreateAccountState.userCreated) {
             return const _AccountCreatedSheetUI();
           }
-          return Container();
+          return const _LoadingSheetUI(title: 'Creating Account');
         }),
       ),
     );
@@ -410,7 +352,7 @@ class _AccountCreatedSheetUI extends StatelessWidget {
         ),
         const VerticalSpacer(),
         TimerButton(
-          onTap: () => Get.offAllNamed(Routes.HOME),
+          onTap: () => Get.offAllNamed(Routes.ON_BOARDING),
           time: 3,
           backgroundColor: AppColors(context).primary,
           textColor: AppColors(context).onPrimary,

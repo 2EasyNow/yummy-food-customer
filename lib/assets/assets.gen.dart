@@ -110,6 +110,9 @@ class $AssetsImagesGen {
   AssetGenImage get notFound =>
       const AssetGenImage('assets/images/notFound.png');
 
+  /// File path: assets/images/pizza.jpg
+  AssetGenImage get pizza => const AssetGenImage('assets/images/pizza.jpg');
+
   /// File path: assets/images/profile.png
   AssetGenImage get profile => const AssetGenImage('assets/images/profile.png');
 }

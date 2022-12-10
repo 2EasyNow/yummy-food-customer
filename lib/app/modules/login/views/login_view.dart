@@ -109,12 +109,7 @@ class LoginView extends GetView<LoginController> {
               ),
               VerticalSpacer(space: 1.h),
               TextButton(
-                onPressed: () {
-                  // showLoadingBottomSheet(context, title: 'Creating Account');
-                  if (!controller.formKey.currentState!.validate()) return;
-                  Get.bottomSheet(const _LoginBottomSheet());
-                  controller.onLogin();
-                },
+                onPressed: () => controller.onLoginUser(processStartDesignSheet: const _LoginBottomSheet()),
                 style: TextButton.styleFrom(
                   minimumSize: Size(Get.width, 60),
                 ),
@@ -271,7 +266,7 @@ class _LoggedInSheet extends StatelessWidget {
         ),
         const VerticalSpacer(),
         TimerButton(
-          onTap: () => Get.offAllNamed(Routes.HOME),
+          onTap: () => Get.offAllNamed(Routes.ON_BOARDING),
           time: 3,
           backgroundColor: AppColors(context).primary,
           textColor: AppColors(context).onPrimary,
@@ -322,7 +317,7 @@ class _ErrorSheetUI extends GetView<LoginController> {
             const HorizontalSpacer(),
             Expanded(
               child: TextButton(
-                onPressed: controller.onLogin,
+                onPressed: controller.authenticateUser,
                 style: TextButton.styleFrom(
                   minimumSize: Size(Get.width, 60),
                 ),

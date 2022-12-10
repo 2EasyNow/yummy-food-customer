@@ -11,7 +11,7 @@ showErrorSnackbar(title, msg) {
     ),
     backgroundColor: Colors.red,
     colorText: Colors.white,
-    snackPosition: SnackPosition.BOTTOM,
+    snackPosition: SnackPosition.TOP,
     duration: const Duration(seconds: 3),
   );
 }
@@ -26,7 +26,7 @@ showSuccessSnackbar(title, message) {
     ),
     backgroundColor: Colors.green,
     colorText: Colors.white,
-    snackPosition: SnackPosition.BOTTOM,
+    snackPosition: SnackPosition.TOP,
     duration: const Duration(seconds: 2),
   );
 }
@@ -41,12 +41,12 @@ showWarningSnackbar(title, message) {
     ),
     backgroundColor: Colors.orange,
     colorText: Colors.white,
-    snackPosition: SnackPosition.BOTTOM,
+    snackPosition: SnackPosition.TOP,
     duration: const Duration(seconds: 2),
   );
 }
 
-showAppSnackBar(String title, String message, [BuildContext? context, IconData? icon, int? duration]) {
+showAppSnackBar(String title, String message, {BuildContext? context, IconData? icon, int? duration, SnackPosition position = SnackPosition.TOP}) {
   context ??= Get.context!;
   duration ??= 3;
   Get.snackbar(
@@ -56,6 +56,7 @@ showAppSnackBar(String title, String message, [BuildContext? context, IconData? 
     colorText: context.theme.colorScheme.onInverseSurface,
     margin: const EdgeInsets.only(top: 20, left: 12, right: 12),
     instantInit: true,
+    snackPosition: position,
     duration: Duration(seconds: duration),
     mainButton: TextButton(
       onPressed: () {
@@ -64,7 +65,7 @@ showAppSnackBar(String title, String message, [BuildContext? context, IconData? 
       style: TextButton.styleFrom(
         minimumSize: const Size(0, 0),
         backgroundColor: context.theme.colorScheme.errorContainer,
-        primary: context.theme.colorScheme.onErrorContainer,
+        foregroundColor: context.theme.colorScheme.onErrorContainer,
       ),
       child: const Icon(Icons.close, size: 16),
     ),

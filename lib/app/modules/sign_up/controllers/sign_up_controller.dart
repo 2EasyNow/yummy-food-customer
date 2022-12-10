@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_food_delivery/app/core/exceptions/not_logged_in.dart';
+import 'package:intelligent_food_delivery/app/domain/app_user/use_cases/app_user_use_case.dart';
 
+import '../../../common/widgets/snackbars.dart';
 import '../../../core/controllers/authentication.controller.dart';
-import '../../../core/controllers/customer.controller.dart';
-import '../../../firestore/customer/customer.dart';
-
 
 enum CreateAccountState {
   info,
@@ -25,8 +25,6 @@ class SignUpController extends GetxController {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final phoneNumberScopeNode = FocusScopeNode();
-  final emailController = TextEditingController();
-  final addressController = TextEditingController();
 
   String? get phoneNumber {
     final number = phoneController.text.replaceAll('-', '');
@@ -43,6 +41,15 @@ class SignUpController extends GetxController {
   onCreateAccountWithPhoneNumber() async {
     if (!formKey.currentState!.validate()) return;
     // check if the user is already registered
+
+    final appUserUseCase = Get.find<AppUserUseCase>();
+    final isUserRegistered = await appUserUseCase.isUserRegistered(phoneNumber!);
+    if (isUserRegistered) {
+      if (Get.isBottomSheetOpen!) Get.back();
+      showAppSnackBar('User Already Exists', "Please login");
+      phoneNumberScopeNode.requestFocus();
+      return;
+    }
 
     createAccountState.value = CreateAccountState.verification;
     final authController = Get.find<AuthenticationController>();
@@ -79,16 +86,17 @@ class SignUpController extends GetxController {
   }
 
   void saveUserData() async {
-    final customerController = Get.find<CustomerController>();
-    final customer = Customer(
+    final appUserUseCase = Get.find<AppUserUseCase>();
+    await appUserUseCase.createUser(
       name: nameController.text,
-      email: emailController.text,
       phone: phoneNumber!,
-      address: addressController.text,
-      updatedAt: DateTime.now(),
-      createdAt: DateTime.now(),
     );
-    await customerController.createCustomerDoc(customer);
     createAccountState.value = CreateAccountState.userCreated;
+  }
+
+  void onCreateAccount({required Widget processStartDesign}) async {
+    if (!formKey.currentState!.validate()) return;
+    Get.bottomSheet(processStartDesign);
+    onCreateAccountWithPhoneNumber();
   }
 }

@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_food_delivery/app/domain/app_user/use_cases/app_user_use_case.dart';
 
 import '../../../common/widgets/snackbars.dart';
 import '../../../core/controllers/authentication.controller.dart';
-import '../../../core/controllers/customer.controller.dart';
 
 enum LoginAccountState {
   phoneVerification,
@@ -29,12 +29,17 @@ class LoginController extends GetxController {
   String? _verificationId;
   int? _forceResendCode;
 
-  onLogin() async {
+  authenticateUser() async {
     final authController = Get.find<AuthenticationController>();
-    final customerController = Get.find<CustomerController>();
-    if (!(await customerController.isCustomerExist(phoneNumber!))) {
+    final userUseCase = Get.find<AppUserUseCase>();
+    final isUserAlreadyRegistered = await userUseCase.isUserRegistered(phoneNumber!);
+    if (!isUserAlreadyRegistered) {
       if (Get.isBottomSheetOpen!) Get.back();
-      showAppSnackBar('User Not found', "Please create an account first");
+      showAppSnackBar(
+        'User Not found',
+        "Please create an account first",
+      );
+      return;
     }
     authController.signInWithPhoneNumber(
       phoneNumber!,
@@ -63,5 +68,11 @@ class LoginController extends GetxController {
         loginState.value = LoginAccountState.error;
       }
     }
+  }
+
+  onLoginUser({required processStartDesignSheet}) {
+    if (!formKey.currentState!.validate()) return;
+    Get.bottomSheet(processStartDesignSheet);
+    authenticateUser();
   }
 }

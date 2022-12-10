@@ -11,11 +11,24 @@ class FirebaseUtils {
     return (await imageRef.getDownloadURL());
   }
 
+  // read file from Firebase Storage
+  static Future<String> fileUrlFromFirebaseStorage(String filePath) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final imageRef = storageRef.child(filePath);
+    return await imageRef.getDownloadURL();
+  }
+
   static List<String> createSearchList(String value) {
     List<String> searchList = [];
     for (int i = 0; i < value.length; i++) {
       searchList.add(value.substring(0, i + 1));
     }
     return searchList;
+  }
+
+  static deleteFile(String path) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final imageRef = storageRef.child(path);
+    await imageRef.delete();
   }
 }

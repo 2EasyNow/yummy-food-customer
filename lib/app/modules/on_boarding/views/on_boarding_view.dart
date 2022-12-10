@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intelligent_food_delivery/app/core/controllers/authentication.controller.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../common/theme/app_colors.dart';
 import '../../../common/theme/text_theme.dart';
 import '../../../common/widgets/spacers.dart';
-import '../../../core/controllers/customer.controller.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/on_boarding_controller.dart';
-
 
 class OnBoardingView extends GetView<OnBoardingController> {
   const OnBoardingView({Key? key}) : super(key: key);
@@ -24,7 +23,7 @@ class OnBoardingView extends GetView<OnBoardingController> {
       condition: FirebaseAuth.instance.currentUser != null,
       builder: (context) {
         return FutureBuilder<bool>(
-          future: Get.find<CustomerController>().hasCustomerDocCreated,
+          future: controller.isUserRecordAdded,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Material(
@@ -35,20 +34,22 @@ class OnBoardingView extends GetView<OnBoardingController> {
                 ),
               );
             }
-            if (snapshot.data!) {
-              0.1.delay(() {
+            if (snapshot.data == true) {
+              1.delay(() {
                 Get.offAllNamed(Routes.HOME);
               });
-              return const Material();
+              return Material(
+                child: Center(
+                  child: SpinKitCircle(color: AppColors(context).primary),
+                ),
+              );
             } else {
-              FirebaseAuth.instance.signOut().then((value) {
-                Get.offAll(Routes.ON_BOARDING);
+              1.delay(() {
+                Get.find<AuthenticationController>().logOut();
               });
               return Material(
-                child: Column(
-                  children: [
-                    SpinKitCircle(color: AppColors(context).primary),
-                  ],
+                child: Center(
+                  child: SpinKitCircle(color: AppColors(context).primary),
                 ),
               );
             }
@@ -211,24 +212,6 @@ class _IntroductionPageView extends GetView<OnBoardingController> {
               ),
             ),
           ),
-
-          // Padding(
-          //   padding: const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 0),
-          //   child: TextButton(
-          //     onPressed: controller.goToGettinStartedPage,
-          //     style: TextButton.styleFrom(
-          //       minimumSize: Size(Get.width, 60),
-          //       backgroundColor: context.theme.colorScheme.primary,
-          //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          //     ),
-          //     child: Text(
-          //       'Get Started',
-          //       style: AppTextStyle(
-          //         color: context.theme.colorScheme.onPrimary,
-          //       ),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
