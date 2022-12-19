@@ -25,6 +25,8 @@ class FoodOrderUseCase extends GetxService {
     final order = FoodOrder(
       customerId: Get.find<AppUserUseCase>().currentUser!.id,
       restaurantId: restaurant.id,
+      restaurantLocation: restaurant.coordinates,
+      customerLocation: Get.find<AppUserUseCase>().userSelectedAddress!.location,
       deliveryFee: deliveryFee,
       platformFee: platformFee,
       subTotal: subTotal,

@@ -131,6 +131,8 @@ abstract class FoodOrderDocumentReference
     FieldValue customerIdFieldValue,
     String restaurantId,
     FieldValue restaurantIdFieldValue,
+    String riderId,
+    FieldValue riderIdFieldValue,
     int subTotal,
     FieldValue subTotalFieldValue,
     int deliveryFee,
@@ -154,6 +156,8 @@ abstract class FoodOrderDocumentReference
     FieldValue customerIdFieldValue,
     String restaurantId,
     FieldValue restaurantIdFieldValue,
+    String riderId,
+    FieldValue riderIdFieldValue,
     int subTotal,
     FieldValue subTotalFieldValue,
     int deliveryFee,
@@ -202,6 +206,8 @@ class _$FoodOrderDocumentReference
     FieldValue? customerIdFieldValue,
     Object? restaurantId = _sentinel,
     FieldValue? restaurantIdFieldValue,
+    Object? riderId = _sentinel,
+    FieldValue? riderIdFieldValue,
     Object? subTotal = _sentinel,
     FieldValue? subTotalFieldValue,
     Object? deliveryFee = _sentinel,
@@ -222,6 +228,10 @@ class _$FoodOrderDocumentReference
     assert(
       restaurantId == _sentinel || restaurantIdFieldValue == null,
       "Cannot specify both restaurantId and restaurantIdFieldValue",
+    );
+    assert(
+      riderId == _sentinel || riderIdFieldValue == null,
+      "Cannot specify both riderId and riderIdFieldValue",
     );
     assert(
       subTotal == _sentinel || subTotalFieldValue == null,
@@ -253,6 +263,8 @@ class _$FoodOrderDocumentReference
       if (restaurantId != _sentinel) 'restaurantId': restaurantId as String,
       if (restaurantIdFieldValue != null)
         'restaurantId': restaurantIdFieldValue,
+      if (riderId != _sentinel) 'riderId': riderId as String,
+      if (riderIdFieldValue != null) 'riderId': riderIdFieldValue,
       if (subTotal != _sentinel) 'subTotal': subTotal as int,
       if (subTotalFieldValue != null) 'subTotal': subTotalFieldValue,
       if (deliveryFee != _sentinel) 'deliveryFee': deliveryFee as int,
@@ -276,6 +288,8 @@ class _$FoodOrderDocumentReference
     FieldValue? customerIdFieldValue,
     Object? restaurantId = _sentinel,
     FieldValue? restaurantIdFieldValue,
+    Object? riderId = _sentinel,
+    FieldValue? riderIdFieldValue,
     Object? subTotal = _sentinel,
     FieldValue? subTotalFieldValue,
     Object? deliveryFee = _sentinel,
@@ -296,6 +310,10 @@ class _$FoodOrderDocumentReference
     assert(
       restaurantId == _sentinel || restaurantIdFieldValue == null,
       "Cannot specify both restaurantId and restaurantIdFieldValue",
+    );
+    assert(
+      riderId == _sentinel || riderIdFieldValue == null,
+      "Cannot specify both riderId and riderIdFieldValue",
     );
     assert(
       subTotal == _sentinel || subTotalFieldValue == null,
@@ -327,6 +345,8 @@ class _$FoodOrderDocumentReference
       if (restaurantId != _sentinel) 'restaurantId': restaurantId as String,
       if (restaurantIdFieldValue != null)
         'restaurantId': restaurantIdFieldValue,
+      if (riderId != _sentinel) 'riderId': riderId as String,
+      if (riderIdFieldValue != null) 'riderId': riderIdFieldValue,
       if (subTotal != _sentinel) 'subTotal': subTotal as int,
       if (subTotalFieldValue != null) 'subTotal': subTotalFieldValue,
       if (deliveryFee != _sentinel) 'deliveryFee': deliveryFee as int,
@@ -462,6 +482,17 @@ abstract class FoodOrderQuery
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
+  FoodOrderQuery whereRiderId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
   FoodOrderQuery whereSubTotal({
     int? isEqualTo,
     int? isNotEqualTo,
@@ -554,6 +585,18 @@ abstract class FoodOrderQuery
   });
 
   FoodOrderQuery orderByRestaurantId({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    FoodOrderDocumentSnapshot? startAtDocument,
+    FoodOrderDocumentSnapshot? endAtDocument,
+    FoodOrderDocumentSnapshot? endBeforeDocument,
+    FoodOrderDocumentSnapshot? startAfterDocument,
+  });
+
+  FoodOrderQuery orderByRiderId({
     bool descending = false,
     String startAt,
     String startAfter,
@@ -860,6 +903,35 @@ class _$FoodOrderQuery extends QueryReference<FoodOrder, FoodOrderQuerySnapshot>
       _collection,
       $referenceWithoutCursor: $referenceWithoutCursor.where(
         _$FoodOrderFieldMap['restaurantId']!,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  FoodOrderQuery whereRiderId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$FoodOrderQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$FoodOrderFieldMap['riderId']!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -1205,6 +1277,78 @@ class _$FoodOrderQuery extends QueryReference<FoodOrder, FoodOrderQuerySnapshot>
   }) {
     final query = $referenceWithoutCursor
         .orderBy(_$FoodOrderFieldMap['restaurantId']!, descending: descending);
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$FoodOrderQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  FoodOrderQuery orderByRiderId({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    FoodOrderDocumentSnapshot? startAtDocument,
+    FoodOrderDocumentSnapshot? endAtDocument,
+    FoodOrderDocumentSnapshot? endBeforeDocument,
+    FoodOrderDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor
+        .orderBy(_$FoodOrderFieldMap['riderId']!, descending: descending);
     var queryCursor = $queryCursor;
 
     if (startAtDocument != null) {
@@ -1797,7 +1941,12 @@ class FoodOrderQueryDocumentSnapshot
 FoodOrder _$FoodOrderFromJson(Map<String, dynamic> json) => FoodOrder(
       id: json['id'] as String? ?? '',
       restaurantId: json['restaurantId'] as String,
+      riderId: json['riderId'] as String? ?? '',
+      restaurantLocation: const LatLngConverter()
+          .fromJson(json['restaurantLocation'] as Object),
       customerId: json['customerId'] as String,
+      customerLocation:
+          const LatLngConverter().fromJson(json['customerLocation'] as Object),
       subTotal: json['subTotal'] as int,
       deliveryFee: json['deliveryFee'] as int,
       platformFee: json['platformFee'] as int,
@@ -1814,7 +1963,10 @@ FoodOrder _$FoodOrderFromJson(Map<String, dynamic> json) => FoodOrder(
 const _$FoodOrderFieldMap = <String, String>{
   'id': 'id',
   'customerId': 'customerId',
+  'customerLocation': 'customerLocation',
   'restaurantId': 'restaurantId',
+  'restaurantLocation': 'restaurantLocation',
+  'riderId': 'riderId',
   'subTotal': 'subTotal',
   'deliveryFee': 'deliveryFee',
   'platformFee': 'platformFee',
@@ -1827,7 +1979,12 @@ const _$FoodOrderFieldMap = <String, String>{
 Map<String, dynamic> _$FoodOrderToJson(FoodOrder instance) => <String, dynamic>{
       'id': instance.id,
       'customerId': instance.customerId,
+      'customerLocation':
+          const LatLngConverter().toJson(instance.customerLocation),
       'restaurantId': instance.restaurantId,
+      'restaurantLocation':
+          const LatLngConverter().toJson(instance.restaurantLocation),
+      'riderId': instance.riderId,
       'subTotal': instance.subTotal,
       'deliveryFee': instance.deliveryFee,
       'platformFee': instance.platformFee,

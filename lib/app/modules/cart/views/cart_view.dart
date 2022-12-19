@@ -4,9 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:get/get.dart';
 import 'package:intelligent_food_delivery/app/common/theme/app_colors.dart';
-import 'package:intelligent_food_delivery/app/common/theme/text_theme.dart';
-import 'package:intelligent_food_delivery/app/common/utils/firebase.dart';
 
+import '../../../common/theme/text_theme.dart';
 import '../../../data/app_user/models/app_user.dart';
 import '../../../data/food_item/models/food_item.dart';
 import '../controllers/cart_controller.dart';
