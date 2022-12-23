@@ -1,0 +1,39 @@
+name: yummy_swipe_admin
+description: A new Flutter project.
+publish_to: 'none' 
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.5 <3.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  get: ^4.6.5
+  firebase_core: ^2.4.0
+  firebase_auth: ^4.2.1
+  cloud_firestore: ^4.2.0
+  cloud_firestore_odm: ^1.0.0-dev.43
+  firebase_storage: 11.0.2
+  flutter_spinkit: ^5.1.0
+  cached_network_image: ^3.2.1
+  get_storage: ^2.0.3
+  # data_table_2: ^2.3.10
+  syncfusion_flutter_datagrid: ^20.4.38
+  google_maps_flutter: ^2.2.2
+  geoflutterfire2:
+    git:
+      url: https://github.com/Hisham-Tariq/GeoFlutterFire2.git
+  google_fonts: ^3.0.1
+
+dev_dependencies: 
+  build_runner: ^2.2.0
+  cloud_firestore_odm_generator: ^1.0.0-dev.37
+  json_serializable: ^6.3.0
+  flutter_gen_runner: ^4.3.0
+  flutter_lints: ^2.0.1
+  flutter_test: 
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
