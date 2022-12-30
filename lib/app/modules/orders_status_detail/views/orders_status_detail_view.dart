@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intelligent_food_delivery/app/common/theme/text_theme.dart';
+import 'package:intelligent_food_delivery/app/domain/rider/rider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../common/utils/firebase.dart';
+import '../../../data/order/models/food_order.dart';
 import '../controllers/orders_status_detail_controller.dart';
 
 class OrdersStatusDetailView extends GetView<OrdersStatusDetailController> {
@@ -179,10 +182,103 @@ class OrdersStatusDetailView extends GetView<OrdersStatusDetailController> {
                   },
                 ),
               ),
+              if (controller.order.status == OrderStatus.pickedUpByRider)
+                TextButton(
+                  onPressed: () {
+                    // open full screen map with
+                    Get.generalDialog(
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return RiderLiveLocationMap();
+                      },
+                    );
+                  },
+                  child: const Text('See Rider'),
+                )
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class RiderLiveLocationMap extends GetView<OrdersStatusDetailController> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: StreamBuilder<RiderDocumentSnapshot>(
+          stream: riderRef.doc(controller.order.riderId).snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final rider = snapshot.data!.data!;
+              return Column(
+                children: [
+                  Material(
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              const Text(
+                                'Rider Name: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(rider.name),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              const Text(
+                                'Rider Phone: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(rider.phone),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: GoogleMap(
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: true,
+                      initialCameraPosition: CameraPosition(
+                        target: rider.location ?? const LatLng(0, 0),
+                        zoom: 15,
+                      ),
+                      markers: {
+                        Marker(
+                          markerId: const MarkerId('rider'),
+                          infoWindow: InfoWindow(
+                            title: rider.name,
+                            snippet: rider.phone,
+                          ),
+                          position: rider.location ?? const LatLng(0, 0),
+                        ),
+                      },
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            // return GoogleMap(
+            //   initialCameraPosition: CameraPosition(
+            //     target: LatLng(0, 0),
+            //   ),
+            // );
+          }),
     );
   }
 }

@@ -10,7 +10,7 @@ part 'food_order.g.dart';
 
 @JsonSerializable(createFieldMap: true)
 class FoodOrder {
-  FoodOrder( {
+  FoodOrder({
     this.id = '',
     required this.restaurantId,
     this.riderId = '',
@@ -137,6 +137,7 @@ enum OrderStatus {
     return [
       OrderStatus.pending,
       OrderStatus.cooking,
+      OrderStatus.pickedUpByRider,
     ];
   }
 
@@ -144,7 +145,6 @@ enum OrderStatus {
     return [
       OrderStatus.canceledByCustomer,
       OrderStatus.canceledByRestaurant,
-      OrderStatus.pickedUpByRider,
       OrderStatus.delivered,
     ];
   }
